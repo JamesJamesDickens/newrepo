@@ -1,0 +1,121 @@
+---
+title: "Data.Table Homework Key"
+author: "J Dickens"
+date: "3/4/2022"
+output: word_document
+---
+
+```{r}
+
+
+
+#   HOMEWORK  Data Table Coding
+#   Instructions:  Submit an Rmarkdown file and a Word file that shows all
+#                  required code and output.
+
+#                     56 total points
+
+library(tidyverse)
+library(dplyr)
+library(data.table)
+
+# 1
+# Use data.table coding to read in data from the College Data excel spread
+# sheet.  Assign the data imported to the variable CollegeData
+
+CollegeData <- fread("Collegedata.csv")    # 4 points
+CollegeData
+
+# 2
+# Now use tidyverse coding to read in the College Data excel spread sheet.
+# Assign the imported data to the variable CollegeDatatd
+
+
+CollegeDatatd <- read_csv("Collegedata.csv")  #  4 points
+CollegeDatatd
+
+
+# 3
+# Use R coding (of your choice) to determine how many rows and columns the
+# College Data table has.  (Answers may Vary)
+
+dim(CollegeData)    # 4 points
+
+
+# 4
+# Use data.table coding to select the variables INSTNM, SAT_AVG, and ADM_RATE.
+
+CollegeData[, .(INSTNM, SAT_AVG,ADM_RATE)]    # 6 points
+
+
+
+# 5
+# Use tidyverse/dplyr coding to select the variables INSTNM, SAT_AVG, and
+# ADM_RATE.
+
+CollegeDatatd%>%
+  select(INSTNM,SAT_AVG,ADM_RATE)           # 6 points
+
+
+# 6
+# Use data.table coding and the CollegeData data table to only show data for
+# institutions for schools that have admission rates that are less than 
+# 20 percent and SAT averages that are greater than 1500. Your data.table
+# output should show five institutions that satisfy these conditions.
+
+
+CollegeData[ADM_RATE < .20 & SAT_AVG > 1500]   # 6 points
+
+
+# 7
+# Use data.table coding to show observational data (values for all 12 variables
+# for American University. In particular, what is the admission rate and 
+# SAT average for American University.
+
+CollegeData[INSTNM == "American University"]     # 6 points
+
+
+# 8
+# For the CollegeData data frame, Use and show data.table coding that will 
+# produce the first fifteen observational rows, the column variable AGE_ENTRY
+# ordered from highest.  Also, your table only has the column variables INSTNM
+# AND AGE_ENTRY. Assign your coding to the variable fifteen. The table produced
+# is provided below;
+
+CollegeData[1:15][order(-AGE_ENTRY)][, list(INSTNM,AGE_ENTRY)]-> fifteen
+fifteen                  # 8 points
+
+
+# 9
+# Now using R coding of your choice, find the minimum,maximum, 1st and 3rd
+# quartiles, the mean, and the median for the variable AGE_ENTRY.
+# Make sure that AGE_ENTRY is defined as numeric.  Convert the variable to
+# numeric if needed.
+
+summary(as.double(fifteen$AGE_ENTRY))    # 4 points
+
+
+# 10
+# For the CollegeDatatd data frame, Use and show tidyverse/dplyr coding that
+# will produce fifteen observational rows. Your table should only have data for
+# the variables INSTNM and AGE_ENTRY.  Also, the column variable AGE_ENTRY 
+# is to be ordered from highest to lowest. Your table result should be the
+# same as for # 8.
+
+
+CollegeDatatd%>%
+  slice(1:15)%>%
+  select(INSTNM,AGE_ENTRY)%>%
+  mutate(AGE_ENTRY = as.double(AGE_ENTRY))%>%          
+  arrange(desc(AGE_ENTRY))                        # 8 points
+  
+
+
+
+
+
+
+
+
+
+```
